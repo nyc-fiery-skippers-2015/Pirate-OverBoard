@@ -14,4 +14,20 @@ describe AnswersController do
       expect(assigns(:answer)).to be_a_new Answer
     end
   end
+
+  describe 'POST#create' do
+    it 'creates with valid attributes' do
+      expect{
+        post :create, question_id: question.id, answer: {body: "test", user_id: 1}
+      }.to change {Answer.count}.by(1)
+      expect(response).to be_redirect
+    end
+
+    it "doesn't create if attributes are invalid" do
+      expect{
+        post :create, question_id: question.id, answer: {body: nil, user_id: 1}
+      }.not_to change {Answer.count}
+      expect(response).not_to be_redirect
+    end
+  end
 end
