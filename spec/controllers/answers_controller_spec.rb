@@ -30,4 +30,19 @@ describe AnswersController do
       expect(response).not_to be_redirect
     end
   end
+
+  describe 'GET#edit' do
+    let(:answer) {question.answers.build(body: "test", user_id: 1)}
+    it 'is successful' do
+      answer.save
+      get :edit, question_id: question.id, id: answer.id
+      expect(response).to be_success
+    end
+
+    it 'assigns @answer to the Answer found by id' do
+      answer.save
+      get :edit, question_id: question.id, id: answer.id
+      expect(assigns(:answer)).to eq answer
+    end
+  end
 end
