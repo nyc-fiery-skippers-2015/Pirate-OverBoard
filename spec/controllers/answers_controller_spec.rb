@@ -64,4 +64,14 @@ describe AnswersController do
       expect(response).not_to be_redirect
     end
   end
+
+  describe 'DELETE#destroy' do
+    let!(:answer) {question.answers.build(body: "test", user_id: 1)}
+    it 'destroys the record' do
+      answer.save
+      expect{
+        delete :destroy, question_id: question.id, id: answer.id
+      }.to change {Answer.count}.by(-1)
+    end
+  end
 end
