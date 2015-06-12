@@ -4,10 +4,13 @@ describe User do
   it "User should be a uniqu user" do
     user_one = create(:user)
     user_two = build(:user, username:user_one.username, email:user_one.email)
-    user_two.valid?
-    expect(user_two.erros[:username]).to include('has already been taken')
+    expect(user_two.valid?).to eq (false)
   end
-  it "is invalid without an email address"
-  it "user should have a pasword"
+  it "is invalid without an email address"do
+      user = build(:user, email: nil )
+      user.valid?
+      expect(user.errors[:email]).to include("can't be blank")
+  end
+
 
 end
