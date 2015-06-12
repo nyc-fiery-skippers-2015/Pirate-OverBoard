@@ -35,14 +35,14 @@ describe QuestionsController do
 
     it 'assigns @questions to Question.new' do 
       get :new
-      expect(assigns(:questions)).to eq Question.new
+      expect(assigns(:question)).to be_a_new Question
     end
   end  
 
   describe 'POST#create' do 
     it "creates with valid attributes" do
       expect {
-        post :create, question: FactoryGirl.attributes_for(:question)
+        post :create, question: {title: 'test', body: 'test body', user_id: 1}
       }.to change { Question.count }.by(1)
       expect(response).to be_redirect
     end
