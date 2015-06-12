@@ -30,6 +30,13 @@ class AnswersController < ApplicationController
     end
   end
 
+  def destroy
+    @answer = Answer.find_by(id: params[:id])
+    @question = @answer.question
+    @answer.destroy
+    redirect_to question_path(@question)
+  end
+
   private
 
   def answers_params
