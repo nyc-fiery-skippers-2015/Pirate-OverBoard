@@ -1,5 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe User do
+  it "User should be a uniqu user" do
+    user_one = create(:user)
+    user_two = build(:user, username:user_one.username, email:user_one.email)
+    expect(user_two.valid?).to eq (false)
+  end
+  it "is invalid without an email address"do
+      user = build(:user, email: nil )
+      user.valid?
+      expect(user.errors[:email]).to include("can't be blank")
+  end
+
+
 end
