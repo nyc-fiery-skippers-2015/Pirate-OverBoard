@@ -14,6 +14,11 @@ class AnswersController < ApplicationController
     end
   end
 
+  def edit
+    @answer = Answer.find_by(id: params[:id])
+    @question = @answer.question
+  end
+
 
   private
 
