@@ -45,4 +45,23 @@ describe AnswersController do
       expect(assigns(:answer)).to eq answer
     end
   end
+
+  describe 'PUT#update' do
+    let!(:answer) {question.answers.build(body: "test", user_id: 1)}
+    it 'updates with valid attributes' do
+      answer.save
+      expect{
+        put :update, question_id: question.id, id: answer.id, answer: {body: "yolo", user_id: 1}
+      }.to change {answer.reload.body}.to("yolo")
+      expect(response).to be_redirect
+    end
+
+    it "doesn't update if attributes are invalid" do
+      answer.save
+      expect{
+        put :update, question_id: question.id, id: answer.id, answer: {body: nil, user_id: 1}
+      }.to_not change {answer.reload.body}
+      expect(response).not_to be_redirect
+    end
+  end
 end
