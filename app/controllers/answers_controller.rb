@@ -19,6 +19,16 @@ class AnswersController < ApplicationController
     @question = @answer.question
   end
 
+  def update
+    @answer = Answer.find_by(id: params[:id])
+    @question = @answer.question
+    @answer.update(answers_params)
+    if @answer.save
+      redirect_to question_path(@question)
+    else
+      render :edit
+    end
+  end
 
   private
 
