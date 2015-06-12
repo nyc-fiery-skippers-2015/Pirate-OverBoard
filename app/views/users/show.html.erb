@@ -1,0 +1,12 @@
+
+
+
+
+<h1>Welcome <%=@user.name%> </h1>
+
+<%= link_to('New Question',new_question_path)%>
+<% if @user.questions %>
+  <% @user.questions.each do |q| %>
+  <P> <%= q.body %> </P>
+<%end%>
+<%end%>
