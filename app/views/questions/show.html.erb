@@ -5,7 +5,8 @@
     <% @question_comments.each do |comment| %>
       <li><%= comment.body %></li>
       <% if comment.user_id == session[:user_id] %>
-        <%= link_to 'Edit', edit_question_comment_path(@question) %>
+        <%= link_to 'Edit', edit_question_comment_path(@question, comment) %>
+        <%= link_to 'Delete', question_comment_path(@question, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
       <% end %>
       <% end %>
   </ul>
@@ -25,13 +26,13 @@
       <% @best_answer.comments.each do |comment| %>
         <li><%= comment.body %></li>
         <% if comment.user_id == session[:user_id] %>
-          <%= link_to 'Edit', edit_question_answer_comment_path(@question, @best_answer, comment) %>
-          <%= link_to 'Delete', question_answer_comment_path(@question, @best_answer, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
+          <%= link_to 'Edit', edit_question_comment_path(@question, comment) %>
+          <%= link_to 'Delete', question_comment_path(@question, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
         <% end %>
       <% end %>
     </ul>
   <% end %>
-  <%= link_to 'Add a Comment', new_question_answer_comment_path(@question, @best_answer) %>
+  <%= link_to 'Add a Comment', new_answer_comment_path(@best_answer) %>
 <% end %>
 
 <% if @answers %>
@@ -46,12 +47,12 @@
           <% answer.comments.each do |comment| %>
             <li><%= comment.body %></li>
             <% if comment.user_id == session[:user_id] %>
-              <%= link_to 'Edit', edit_question_answer_comment_path(@question, answer, comment) %>
-              <%= link_to 'Delete', question_answer_comment_path(@question, answer, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
+              <%= link_to 'Edit', edit_answer_comment_path(answer, comment) %>
+              <%= link_to 'Delete', answer_comment_path(answer, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
             <% end %>
           <% end %>
         </ul>
       <% end %>
-    <%= link_to 'Add a Comment', new_question_answer_comment_path(@question, answer) %>
+    <%= link_to 'Add a Comment', new_answer_comment_path(answer) %>
     <% end %>
 <% end %>
