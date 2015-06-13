@@ -18,6 +18,35 @@ class CommentsController < ApplicationController
     end
   end
 
+  def edit
+    @commentable = find_commentable
+    @comment = Comment.find_by(id: params[:id])
+  end
+
+  def update
+    @commentable = find_commentable
+    @comment = Comment.find_by(id: params[:id])
+    @comment.update(comment_params)
+    if @comment.save && params[:question_id]
+      redirect_to question_path(@commentable)
+    elsif @comment.save
+      redirect_to question_path(@commentable.question)
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @commentable = find_commentable
+    @comment = Comment.find_by(id: params[:id])
+    @comment.destroy
+    if params[:question_id]
+      redirect_to question_path(@commentable)
+    else @comment.save
+      redirect_to question_path(@commentable.question)
+    end
+  end
+
   private
 
   def find_commentable

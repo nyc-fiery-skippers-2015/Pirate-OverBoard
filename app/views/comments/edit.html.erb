@@ -1,0 +1,7 @@
+<h1>Edit Comment</h1>
+<%= render 'form' %>
+<% if params[:question_id] %>
+  <%= link_to 'Back', question_url(@commentable) %>
+<% else %>
+  <%= link_to 'Back', question_url(@commentable.question) %>
+<% end %>
