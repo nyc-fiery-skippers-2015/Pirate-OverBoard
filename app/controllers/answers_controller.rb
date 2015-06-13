@@ -1,12 +1,17 @@
 class AnswersController < ApplicationController
   def new
-    @question = Question.find_by(id: params[:question_id])
-    @answer = Answer.new
+    if session[:user_id]
+      @question = Question.find_by(id: params[:question_id])
+      @answer = Answer.new
+    else
+      redirect_to login_path
+    end
   end
 
   def create
     @question = Question.find_by(id: params[:question_id])
     @answer = @question.answers.build(answers_params)
+    @answer.user = User.find_by(id: session[:user_id])
     if @answer.save
       redirect_to question_path(@question)
     else
