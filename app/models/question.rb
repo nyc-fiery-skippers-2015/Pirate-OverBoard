@@ -11,7 +11,7 @@ class Question < ActiveRecord::Base
 
   def default_vote
     vote = self.votes.build(vote_count:0)
-    vote.user = current_user
+    vote.user = self.user
     vote.save
   end
 
