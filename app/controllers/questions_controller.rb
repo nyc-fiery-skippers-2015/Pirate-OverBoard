@@ -51,6 +51,12 @@ class QuestionsController < ApplicationController
     redirect_to questions_path
   end
 
+  def vote
+    @question = Question.find_by(id: params[:id])
+    Vote.create(vote_count: params[:vote_count], user: User.find_by(id: session[:user_id]), votable: @question)
+    redirect_to :back
+  end
+
 
   private
   def question_params

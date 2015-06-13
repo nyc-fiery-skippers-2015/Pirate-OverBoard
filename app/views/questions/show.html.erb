@@ -1,4 +1,10 @@
 <h1><%= @question.title %></h1>
+<%= link_to vote_question_path(@question, vote_count: 1), method: 'post' do %>
+  <p>Upvote</p>
+<% end %>
+<%= link_to vote_question_path(@question, vote_count: -1), method: 'post' do %>
+  <p>Downvote</p>
+<% end %>
 <div><%= @question.body  %></div>
 <% if @question_comments %>
   <ul>
@@ -16,6 +22,12 @@
 
 <h2>Answers:</h2>
 <% if @best_answer %>
+  <%= link_to vote_answer_path(@best_answer, vote_count: 1), method: 'post' do %>
+    <p>Upvote</p>
+  <% end %>
+  <%= link_to vote_answer_path(@best_answer, vote_count: -1), method: 'post' do %>
+    <p>Downvote</p>
+  <% end %>
   <div><%= @best_answer.body %></div>
   <% if @best_answer.user_id == session[:user_id] %>
     <%= link_to 'Edit', edit_question_answer_path(@question, @best_answer) %>
@@ -37,6 +49,12 @@
 
 <% if @answers %>
   <% @answers.each do |answer| %>
+    <%= link_to vote_answer_path(answer, vote_count: 1), method: 'post' do %>
+      <p>Upvote</p>
+    <% end %>
+    <%= link_to vote_answer_path(answer, vote_count: -1), method: 'post' do %>
+      <p>Downvote</p>
+    <% end %>
     <div><%= answer.body %></div>
       <% if answer.user_id == session[:user_id] %>
         <%= link_to 'Edit', edit_question_answer_path(@question, answer) %>
