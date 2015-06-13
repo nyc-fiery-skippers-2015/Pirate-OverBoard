@@ -1,7 +1,13 @@
 class QuestionsController < ApplicationController
 
   def index
-    @questions = Question.all
+    if params[:error]
+      @questions = Question.all
+      render :index_chrono
+    else
+      @questions = Question.joins(:votes).group(:id).order('SUM(votes.vote_count) DESC')
+      render :index
+    end
   end
 
   def show
@@ -14,26 +20,26 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
-    #@question.user = current_user
+    @question.user = User.find_by(id: session[:user_id])
     if @question.save
-      redirect_to question_path(@question)
+      redirect_to questions_path
     else
       render :new
     end
   end
 
   def edit
-    @question = Question.find_by(id: params[:id]) 
+    @question = Question.find_by(id: params[:id])
   end
 
 
   def update
     @question = Question.find_by(id: params[:id])
     if @question.update_attributes(question_params)
-      redirect_to question_path(@question)
+      redirect_to questions_path
     else
       render :edit
-    end 
+    end
   end
 
   def destroy
