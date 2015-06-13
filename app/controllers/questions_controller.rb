@@ -1,8 +1,8 @@
 class QuestionsController < ApplicationController
 
   def index
-    if params[:error]
-      @questions = Question.all
+    if params[:order]
+      @questions = Question.order(:updated_at)
       render :index_chrono
     else
       @questions = Question.joins(:votes).group(:id).order('SUM(votes.vote_count) DESC')

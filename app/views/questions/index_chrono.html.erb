@@ -1,0 +1,11 @@
+<h1>All Questions</h1>
+<%= link_to 'Sort by Most Votes', questions_path %>
+<% if @questions %>
+  <% @questions.each do |question| %>
+    <div>
+      <%= link_to "#{question.title}", question_path(question) %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= link_to 'Ask a Question', new_question_path %>
