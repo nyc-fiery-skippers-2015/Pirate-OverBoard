@@ -7,6 +7,8 @@
       <% end %>
   </ul>
 <% end %>
+<%= link_to 'Add a Comment', new_question_comment_path(@question) %>
+<div><%= link_to 'Add an Answer', new_question_answer_path(@question) %></div>
 
 <h2>Answers:</h2>
 <% if @best_answer %>
@@ -18,6 +20,7 @@
       <% end %>
     </ul>
   <% end %>
+  <%= link_to 'Add a Comment', new_question_answer_comment_path(@question, @best_answer) %>
 <% end %>
 
 <% if @answers %>
@@ -30,5 +33,6 @@
           <% end %>
         </ul>
       <% end %>
+    <%= link_to 'Add a Comment', new_question_answer_comment_path(@question, answer) %>
     <% end %>
 <% end %>
