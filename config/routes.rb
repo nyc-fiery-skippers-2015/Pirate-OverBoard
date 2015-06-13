@@ -3,9 +3,15 @@ Rails.application.routes.draw do
   resources :questions do
     resources :comments, except: [:index, :show]
     resources :answers, except: [:index, :show]
+    member do
+      post 'vote'
+    end
   end
   resources :answers, except: [:index, :show] do
     resources :comments, except: [:index, :show]
+    member do
+      post 'vote'
+    end
   end
 
   resources :users, :sessions
