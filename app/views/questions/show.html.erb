@@ -1,3 +1,5 @@
+<%= flash[:notice] %>
+<%= flash[:error] %>
 <h1><%= @question.title %></h1>
 <%= link_to vote_question_path(@question, vote_count: 1), method: 'post' do %>
   <p>Upvote</p>
@@ -55,6 +57,11 @@
     <%= link_to vote_answer_path(answer, vote_count: -1), method: 'post' do %>
       <p>Downvote</p>
     <% end %>
+    <% unless @best_answer %>
+      <%= link_to update_best_answer_answer_path(answer, best_answer: true), method: 'put' do %>
+        <p>Mark as Best Answer</p>
+      <% end %>
+    <% end %>
     <div><%= answer.body %></div>
       <% if answer.user_id == session[:user_id] %>
         <%= link_to 'Edit', edit_question_answer_path(@question, answer) %>
@@ -74,3 +81,4 @@
     <%= link_to 'Add a Comment', new_answer_comment_path(answer) %>
     <% end %>
 <% end %>
+<div><%= link_to 'All Questions', questions_path %></div>

@@ -48,6 +48,17 @@ class AnswersController < ApplicationController
     redirect_to :back
   end
 
+  def update_best_answer
+    @answer = Answer.find_by(id: params[:id])
+    @answer.best_answer = true
+    if @answer.save
+      redirect_to :back
+    else
+      flash[:error] = "There was an error"
+      redirect_to :back
+    end
+  end
+
   private
 
   def answers_params

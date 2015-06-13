@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     end
   end
   resources :answers, except: [:index, :show] do
+    member do
+      put 'update_best_answer'
+    end
     resources :comments, except: [:index, :show]
     member do
       post 'vote'

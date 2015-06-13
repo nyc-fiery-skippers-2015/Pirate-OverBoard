@@ -53,7 +53,12 @@ class QuestionsController < ApplicationController
 
   def vote
     @question = Question.find_by(id: params[:id])
-    Vote.create(vote_count: params[:vote_count], user: User.find_by(id: session[:user_id]), votable: @question)
+    vote = Vote.create(vote_count: params[:vote_count], user: User.find_by(id: session[:user_id]), votable: @question)
+    if vote.valid?
+      flash[:notice] = "You voted"
+    else
+      flash[:error] = "You cannot vote more than once"
+    end
     redirect_to :back
   end
 
