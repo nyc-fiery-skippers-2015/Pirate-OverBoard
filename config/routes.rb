@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 
   resources :questions do
-    resources :answers, except: [:index, :show]
+    resources :comments, except: [:index, :show]
+    resources :answers, except: [:index, :show] do
+      resources :comments, except: [:index, :show]
+    end
   end
   resources :users, :sessions
 
