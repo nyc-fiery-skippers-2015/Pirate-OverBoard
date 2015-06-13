@@ -1,0 +1,34 @@
+<h1><%= @question.title %></h1>
+<div><%= @question.body  %></div>
+<% if @question_comments %>
+  <ul>
+    <% @question_comments.each do |comment| %>
+      <li><%= comment.body %></li>
+      <% end %>
+  </ul>
+<% end %>
+
+<h2>Answers:</h2>
+<% if @best_answer %>
+  <div><%= @best_answer.body %></div>
+  <% if @best_answer.comments %>
+    <ul>
+      <% @best_answer.comments.each do |comment| %>
+        <li><%= comment.body %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
+<% if @answers %>
+  <% @answers.each do |answer| %>
+    <div><%= answer.body %></div>
+      <% if answer.comments %>
+        <ul>
+          <% answer.comments.each do |comment| %>
+            <li><%= comment.body %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+<% end %>

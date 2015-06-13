@@ -12,6 +12,9 @@ class QuestionsController < ApplicationController
 
   def show
     @question = Question.find_by(id: params[:id])
+    @question_comments = @question.comments
+    @best_answer = Answer.find_by(question: @question, best_answer: true)
+    @answers = Answer.where(question: @question, best_answer: false)
   end
 
   def new
