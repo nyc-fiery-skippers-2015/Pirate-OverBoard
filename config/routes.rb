@@ -2,10 +2,12 @@ Rails.application.routes.draw do
 
   resources :questions do
     resources :comments, except: [:index, :show]
-    resources :answers, except: [:index, :show] do
-      resources :comments, except: [:index, :show]
-    end
+    resources :answers, except: [:index, :show]
   end
+  resources :answers, except: [:index, :show] do
+    resources :comments, except: [:index, :show]
+  end
+
   resources :users, :sessions
 
   get 'welcome/index'
