@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   before_action :require_login, :except => [:index, :show]
 
   def index
+     @question_votes =  Vote.where(votable_type: 'Question').group(:votable_id).sum(:vote_count)
     if params[:order]
       @questions = Question.order(updated_at: :desc)
       render :index_chrono
