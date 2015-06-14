@@ -1,10 +1,10 @@
 class Question < ActiveRecord::Base
-  after_save :default_vote
+  after_create :default_vote
 
   belongs_to :user
-  has_many :answers
-  has_many :votes, as: :votable
-  has_many :comments, as: :commentable
+  has_many :answers, dependent: :destroy
+  has_many :votes, as: :votable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   validates_presence_of :title, :body
 
@@ -16,7 +16,3 @@ class Question < ActiveRecord::Base
   end
 
 end
-
-
-
- # Question.joins(:votes).group(:id).order('SUM(votes.vote_count) DESC')

@@ -43,14 +43,18 @@ class AnswersController < ApplicationController
   end
 
   def vote
-    @answer = Answer.find_by(id: params[:id])
-    vote = Vote.create(vote_count: params[:vote_count], user: User.find_by(id: session[:user_id]), votable: @answer)
-    if vote.valid?
-      flash[:notice] = "You voted"
+    if session[:user_id]
+      @answer = Answer.find_by(id: params[:id])
+      vote = Vote.create(vote_count: params[:vote_count], user: User.find_by(id: session[:user_id]), votable: @answer)
+      if vote.valid?
+        flash[:notice] = "You voted"
+      else
+        flash[:error] = "You cannot vote more than once"
+      end
+      redirect_to :back
     else
-      flash[:error] = "You cannot vote more than once"
+      redirect_to login_path
     end
-    redirect_to :back
   end
 
   def update_best_answer

@@ -1,8 +1,12 @@
 class CommentsController < ApplicationController
 
   def new
-    @commentable = find_commentable
-    @comment = Comment.new
+    if session[:user_id]
+      @commentable = find_commentable
+      @comment = Comment.new
+    else
+      redirect_to login_path
+    end
   end
 
   def create
