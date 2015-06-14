@@ -1,12 +1,10 @@
 <h1>All Questions</h1>
+<h3><%= link_to 'Ask a Question', new_question_path %></h3>
 <%= link_to 'Sort by Newest Questions First', questions_path(order: "chronologically") %>
 <% if @questions %>
-  <% @questions.each do |question| %>
-    <div>
-    <%= @question_votes[question.id] %>
-      <%= link_to "#{question.title}", question_path(question) %>
-    </div>
-  <% end %>
-<% end %>
+ <%=render 'questions'%>
+ <% end %>
 
-<%= link_to 'Ask a Question', new_question_path %>
+
+
+

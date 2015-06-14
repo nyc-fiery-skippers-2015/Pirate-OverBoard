@@ -1,0 +1,11 @@
+
+<% @questions.each do |q| %>
+<div class="comment">
+  <div class="comment-content">
+    <% @q = q%>
+    <% @votes = @question_votes%>
+    <%= render partial: 'stats', locals:{q:@q ,votes:@votes} %>
+    <%= link_to("#{q.title}", question_path(q))%>
+    </div>
+</div>
+<%end%>
