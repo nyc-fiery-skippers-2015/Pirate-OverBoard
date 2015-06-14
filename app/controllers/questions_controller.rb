@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
 
   def index
     if params[:order]
-      @questions = Question.order(:updated_at)
+      @questions = Question.order(updated_at: :desc)
       render :index_chrono
     else
       @questions = Question.joins(:votes).group(:id).order('SUM(votes.vote_count) DESC')

@@ -57,9 +57,11 @@
     <%= link_to vote_answer_path(answer, vote_count: -1), method: 'post' do %>
       <p>Downvote</p>
     <% end %>
-    <% unless @best_answer %>
-      <%= link_to update_best_answer_answer_path(answer, best_answer: true), method: 'put' do %>
-        <p>Mark as Best Answer</p>
+    <% if @question.user_id == session[:user_id] %>
+      <% unless @best_answer %>
+        <%= link_to update_best_answer_answer_path(answer, best_answer: true), method: 'put' do %>
+          <p>Mark as Best Answer</p>
+        <% end %>
       <% end %>
     <% end %>
     <div><%= answer.body %></div>
