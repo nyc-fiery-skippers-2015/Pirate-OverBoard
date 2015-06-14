@@ -1,7 +1,7 @@
 <div class="stats">
   <ul>
-    <li><%=@q.votes.count%><span>votes</span></li>
-    <li>0<span>answers</span></li>
-    <li>0<span>comments</span></li>
+    <li><%=votes[q.id]%><span>votes</span></li>
+    <li><%= q.answers.length%><span>answers</span></li>
+    <li><%= q.comments.length %><span>comments</span></li>
    </ul>
 </div>
