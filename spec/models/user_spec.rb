@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe User do
-  it "User should be a uniqu user" do
+  it "User should be a unique user" do
     user_one = create(:user)
     user_two = build(:user, username:user_one.username, email:user_one.email)
     expect(user_two.valid?).to eq (false)
