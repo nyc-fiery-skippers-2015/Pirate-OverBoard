@@ -1,3 +1,16 @@
+.comments_questions{
+
+ .comment-content{@include shift(49); }
+
+ }
+
+.title{
+ @include shift(1);
+ font-size: 40px;
+}
+
+
+
 
 .stats {
   $base-spacing: 1.5em !default;
@@ -38,6 +51,11 @@
     font-weight: normal;
   }
 }
+
+
+
+
+
 
 
 
