@@ -1,11 +1,13 @@
 
 <% @questions.each do |q| %>
 <div class="comment">
-  <div class="comment-image">
-    <img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png" alt="Logo image">
-  </div>
   <div class="comment-content">
-    <h1><%=q.title%></h1>
+    <% @q = q%>
+    <% @votes = @question_votes%>
+    <%= render partial: 'stats', locals:{q:@q ,votes:@votes} %>
+    <%= link_to("#{q.title}", question_path(q))%>
     </div>
 </div>
 <%end%>
+
+
