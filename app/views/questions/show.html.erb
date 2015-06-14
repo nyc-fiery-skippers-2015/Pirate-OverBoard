@@ -12,21 +12,17 @@
 
 <%= @question.body  %>
 
-<% if @question.user_id ==session[:user_id] %>
-  <div>
-    <%= link_to 'Edit Question', edit_question_path(@question) %>
-    <%= link_to 'Delete Question', question_path(@question), method: :delete, data: {confirm: 'Are you sure?'} %>
-  </div>
-<% end %>
+<div>
+  <%= link_to 'Edit Question', edit_question_path(@question) %>
+  <%= link_to 'Delete Question', question_path(@question), method: :delete, data: {confirm: 'Are you sure?'} %>
+</div>
 
 <% if @question_comments %>
   <ul>
     <% @question_comments.each do |comment| %>
       <li><%= comment.body %></li>
-      <% if comment.user_id == session[:user_id] %>
-        <%= link_to 'Edit', edit_question_comment_path(@question, comment) %>
-        <%= link_to 'Delete', question_comment_path(@question, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
-      <% end %>
+      <%= link_to 'Edit', edit_question_comment_path(@question, comment) %>
+      <%= link_to 'Delete', question_comment_path(@question, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
     <% end %>
   </ul>
 <% end %>
@@ -48,23 +44,19 @@
 
   <%= @best_answer.body %>
 
-  <% if @best_answer.user_id == session[:user_id] %>
-    <div>
-      <%= link_to 'Edit', edit_question_answer_path(@question, @best_answer) %>
-      <%= link_to 'Delete', question_answer_path(@question, @best_answer), method: :delete, data: {confirm: 'Are you sure?'} %>
-    </div>
-  <% end %>
+  <div>
+    <%= link_to 'Edit', edit_question_answer_path(@question, @best_answer) %>
+    <%= link_to 'Delete', question_answer_path(@question, @best_answer), method: :delete, data: {confirm: 'Are you sure?'} %>
+  </div>
 
   <% if @best_answer.comments %>
     <ul>
       <% @best_answer.comments.each do |comment| %>
         <li><%= comment.body %></li>
-        <% if comment.user_id == session[:user_id] %>
-          <div>
-            <%= link_to 'Edit', edit_question_comment_path(@question, comment) %>
-            <%= link_to 'Delete', question_comment_path(@question, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
-          </div>
-        <% end %>
+        <div>
+          <%= link_to 'Edit', edit_question_comment_path(@question, comment) %>
+          <%= link_to 'Delete', question_comment_path(@question, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
+        </div>
       <% end %>
     </ul>
   <% end %>
@@ -92,23 +84,19 @@
     <% end %>
 
     <%= answer.body %>
-    <% if answer.user_id == session[:user_id] %>
-      <div>
-        <%= link_to 'Edit', edit_question_answer_path(@question, answer) %>
-        <%= link_to 'Delete', question_answer_path(@question, answer), method: :delete, data: {confirm: 'Are you sure?'} %>
-      </div>
-    <% end %>
+    <div>
+      <%= link_to 'Edit', edit_question_answer_path(@question, answer) %>
+      <%= link_to 'Delete', question_answer_path(@question, answer), method: :delete, data: {confirm: 'Are you sure?'} %>
+    </div>
 
     <% if answer.comments %>
       <ul>
         <% answer.comments.each do |comment| %>
           <li><%= comment.body %></li>
-          <% if comment.user_id == session[:user_id] %>
-            <div>
-              <%= link_to 'Edit', edit_answer_comment_path(answer, comment) %>
-              <%= link_to 'Delete', answer_comment_path(answer, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
-            </div>
-          <% end %>
+          <div>
+            <%= link_to 'Edit', edit_answer_comment_path(answer, comment) %>
+            <%= link_to 'Delete', answer_comment_path(answer, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
+          </div>
         <% end %>
       </ul>
     <% end %>

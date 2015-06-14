@@ -46,8 +46,12 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question = Question.find_by(id: params[:id])
-    @question.destroy
-    redirect_to questions_path
+    if @question.user_id == session[:user_id]
+      @question.destroy
+      redirect_to questions_path
+    else
+      redirect_to login_path
+    end
   end
 
   def vote
