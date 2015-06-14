@@ -1,11 +1,13 @@
 require 'rails_helper'
+require 'pry'
 
 describe AnswersController do
-  let(:question) {Question.create(title: "Test Title", body: "Test Body", user_id: 1)}
+  let(:question) {FactoryGirl.create(:question)}
   describe 'GET#new' do
-    let(:answer) {question.answers.build(body: "test body")}
+    let(:answer) {FactoryGirl.create(:answer)}
     it 'is successful' do
-      get :new, question_id: question.id
+      binding.pry
+      get :new, question_id: question.id, id: answer.id
       expect(response).to be_success
     end
 
@@ -18,7 +20,7 @@ describe AnswersController do
   describe 'POST#create' do
     it 'creates with valid attributes' do
       expect{
-        post :create, question_id: question.id, answer: {body: "test", user_id: 1}
+        post :create, question_id: question.id, answer: {body: "test", user: user}
       }.to change {Answer.count}.by(1)
       expect(response).to be_redirect
     end
