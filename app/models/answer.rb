@@ -1,11 +1,18 @@
 class Answer < ActiveRecord::Base
+  after_create :default_vote
   belongs_to :user
   belongs_to :question
-  has_many :votes, as: :votable
-  has_many :comments, as: :commentable
+  has_many :votes, as: :votable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   validates :body, presence: true
   validates_uniqueness_of :only_one_best_answer, if: :only_one_best_answer
+
+  def default_vote
+    vote = self.votes.build(vote_count:0)
+    vote.user = self.user
+    vote.save
+  end
 
   private
 
