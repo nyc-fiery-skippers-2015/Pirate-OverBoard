@@ -4,10 +4,9 @@ require 'pry'
 describe AnswersController do
   let(:question) {FactoryGirl.create(:question)}
   describe 'GET#new' do
-    let(:answer) {FactoryGirl.create(:answer)}
+    let(:answer) {Answer.new}
     it 'is successful' do
-      binding.pry
-      get :new, question_id: question.id, id: answer.id
+      get :new, question_id: question.id
       expect(response).to be_success
     end
 
