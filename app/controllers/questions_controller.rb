@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  before_action :require_login, :except => [:index, :show]
 
   def index
     if params[:order]
@@ -11,7 +12,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.find_by(id: params[:id])
+    @question = found_question
     @question_comments = @question.comments
     @best_answer = Answer.find_by(question: @question, best_answer: true)
     @answers = Answer.joins(:votes).where(question: @question, best_answer: false).group(:id).order('SUM(votes.vote_count) DESC')
@@ -23,7 +24,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
-    @question.user = User.find_by(id: session[:user_id])
+    @question.user = current_user
     if @question.save
       redirect_to questions_path
     else
@@ -32,11 +33,11 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    @question = Question.find_by(id: params[:id])
+    @question = found_question
   end
 
   def update
-    @question = Question.find_by(id: params[:id])
+    @question = found_question
     if @question.update_attributes(question_params)
       redirect_to question_path(@question)
     else
@@ -45,7 +46,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = Question.find_by(id: params[:id])
+    @question = found_question
     if @question.user_id == session[:user_id]
       @question.destroy
       redirect_to questions_path
@@ -55,21 +56,22 @@ class QuestionsController < ApplicationController
   end
 
   def vote
-    if session[:user_id]
-      @question = Question.find_by(id: params[:id])
-      vote = Vote.create(vote_count: params[:vote_count], user: User.find_by(id: session[:user_id]), votable: @question)
-      if vote.valid?
-        flash[:notice] = "You voted"
-      else
-        flash[:error] = "You cannot vote more than once"
-      end
-      redirect_to :back
+    @question = found_question
+    vote = Vote.create(vote_count: params[:vote_count], user: current_user, votable: @question)
+    if vote.valid?
+      flash[:notice] = "You voted"
     else
-      redirect_to login_path
+      flash[:error] = "You cannot vote more than once"
     end
+    redirect_to :back
   end
 
   private
+
+  def found_question
+    Question.find_by(id: params[:id])
+  end
+
   def question_params
     params.require(:question).permit(:title, :body)
   end

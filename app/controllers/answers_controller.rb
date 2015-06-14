@@ -1,17 +1,15 @@
 class AnswersController < ApplicationController
+  before_action :require_login
+
   def new
-    if session[:user_id]
-      @question = Question.find_by(id: params[:question_id])
-      @answer = Answer.new
-    else
-      redirect_to login_path
-    end
+    @question = Question.find_by(id: params[:question_id])
+    @answer = Answer.new
   end
 
   def create
     @question = Question.find_by(id: params[:question_id])
     @answer = @question.answers.build(answers_params)
-    @answer.user = User.find_by(id: session[:user_id])
+    @answer.user = current_user
     if @answer.save
       redirect_to question_path(@question)
     else
@@ -20,12 +18,12 @@ class AnswersController < ApplicationController
   end
 
   def edit
-    @answer = Answer.find_by(id: params[:id])
+    @answer = found_answer
     @question = @answer.question
   end
 
   def update
-    @answer = Answer.find_by(id: params[:id])
+    @answer = found_answer
     @question = @answer.question
     @answer.update(answers_params)
     if @answer.save
@@ -36,29 +34,25 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer = Answer.find_by(id: params[:id])
+    @answer = found_answer
     @question = @answer.question
     @answer.destroy
     redirect_to question_path(@question)
   end
 
   def vote
-    if session[:user_id]
-      @answer = Answer.find_by(id: params[:id])
-      vote = Vote.create(vote_count: params[:vote_count], user: User.find_by(id: session[:user_id]), votable: @answer)
-      if vote.valid?
-        flash[:notice] = "You voted"
-      else
-        flash[:error] = "You cannot vote more than once"
-      end
-      redirect_to :back
+    @answer = found_answer
+    vote = Vote.create(vote_count: params[:vote_count], user: current_user, votable: @answer)
+    if vote.valid?
+      flash[:notice] = "You voted"
     else
-      redirect_to login_path
+      flash[:error] = "You cannot vote more than once"
     end
+    redirect_to :back
   end
 
   def update_best_answer
-    @answer = Answer.find_by(id: params[:id])
+    @answer = found_answer
     @answer.best_answer = true
     if @answer.save
       redirect_to :back
@@ -69,6 +63,10 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def found_answer
+    Answer.find_by(id: params[:id])
+  end
 
   def answers_params
     params.require(:answer).permit(:body, :user_id)

@@ -5,7 +5,6 @@ class UsersController < ApplicationController
 
  def create
     @user = User.new(user_params)
-    # binding.pry
     @user.password = params[:user][:password_digest]
     if @user.save
       session[:user_id] = @user.id
@@ -16,16 +15,16 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(session[:user_id])
+    @user = current_user
   end
 
   def edit
-   @user = User.find_by(id: params[:id])
+   @user = current_user
   end
 
   def update
-   @user = User.findy_by(id: params[:id])
-   if @user.update_attreibutes(user_params)
+   @user = current_user
+   if @user.update_attributes(user_params)
      redirect_to user_path
     else
       render :edit

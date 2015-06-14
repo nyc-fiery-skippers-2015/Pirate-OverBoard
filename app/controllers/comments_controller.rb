@@ -1,18 +1,15 @@
 class CommentsController < ApplicationController
+  before_action :require_login
 
   def new
-    if session[:user_id]
       @commentable = find_commentable
       @comment = Comment.new
-    else
-      redirect_to login_path
-    end
   end
 
   def create
     @commentable = find_commentable
     @comment = @commentable.comments.build(comment_params)
-    @comment.user = User.find_by(id: session[:user_id])
+    @comment.user = current_user
     if @comment.save && params[:question_id]
       redirect_to question_path(@commentable)
     elsif @comment.save
@@ -24,12 +21,12 @@ class CommentsController < ApplicationController
 
   def edit
     @commentable = find_commentable
-    @comment = Comment.find_by(id: params[:id])
+    @comment = found_comment
   end
 
   def update
     @commentable = find_commentable
-    @comment = Comment.find_by(id: params[:id])
+    @comment = found_comment
     @comment.update(comment_params)
     if @comment.save && params[:question_id]
       redirect_to question_path(@commentable)
@@ -42,7 +39,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @commentable = find_commentable
-    @comment = Comment.find_by(id: params[:id])
+    @comment = found_comment
     @comment.destroy
     if params[:question_id]
       redirect_to question_path(@commentable)
@@ -60,6 +57,10 @@ class CommentsController < ApplicationController
       end
     end
     nil
+  end
+
+  def found_comment
+    Comment.find_by(id: params[:id])
   end
 
   def comment_params
