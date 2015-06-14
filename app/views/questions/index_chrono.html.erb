@@ -3,6 +3,7 @@
 <% if @questions %>
   <% @questions.each do |question| %>
     <div>
+    <%= @question_votes[question.id] %>
       <%= link_to "#{question.title}", question_path(question) %>
     </div>
   <% end %>
