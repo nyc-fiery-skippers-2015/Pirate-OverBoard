@@ -1,45 +1,45 @@
 require 'rails_helper'
 
-describe QuestionsController do 
+describe QuestionsController do
   let(:question) {FactoryGirl.create(:question)}
 
-  describe 'GET#index' do 
-    it 'is successful' do 
+  describe 'GET#index' do
+    it 'is successful' do
       get :index
       expect(response).to be_success
     end
 
-    it 'assigns @questions to Question.all' do 
+    it 'assigns @questions to Question.all' do
       get :index
-      expect(assigns(:questions)).to eq Question.all
+      expect(assigns(:questions)).to eq Question.joins(:votes).group(:id).order('SUM(votes.vote_count) DESC')
     end
   end
 
-  describe 'GET#show' do 
-    it 'is successful' do 
+  describe 'GET#show' do
+    it 'is successful' do
       get :show, id: question.id
       expect(response).to be_success
     end
 
-    it 'assigns @question to the question found_by id' do 
+    it 'assigns @question to the question found_by id' do
       get :show, id: question.id
       expect(assigns(:question)).to eq question
     end
   end
 
-  describe 'GET#new' do 
-     it 'is successful' do 
+  describe 'GET#new' do
+     it 'is successful' do
       get :new
       expect(response).to be_success
     end
 
-    it 'assigns @questions to Question.new' do 
+    it 'assigns @questions to Question.new' do
       get :new
       expect(assigns(:question)).to be_a_new Question
     end
-  end  
+  end
 
-  describe 'POST#create' do 
+  describe 'POST#create' do
     it "creates with valid attributes" do
       expect {
         post :create, question: {title: 'test', body: 'test body', user_id: 1}
@@ -55,7 +55,7 @@ describe QuestionsController do
     end
   end
 
-  describe 'GET#edit' do 
+  describe 'GET#edit' do
       let(:question) { FactoryGirl.create :question }
     it "is successful" do
       get :edit, :id => question.id
@@ -68,7 +68,7 @@ describe QuestionsController do
     end
   end
 
-  describe 'PUT#update' do 
+  describe 'PUT#update' do
      let!(:question) { FactoryGirl.create :question }
     it "updates with valide attributes" do
       expect {
@@ -85,7 +85,7 @@ describe QuestionsController do
     end
   end
 
-  describe 'DELETE#destroy' do 
+  describe 'DELETE#destroy' do
         let!(:question) {FactoryGirl.create :question}
     it 'should delete the question' do
       expect {
