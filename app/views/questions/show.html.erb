@@ -1,115 +1,18 @@
 <%= flash[:notice] %>
 <%= flash[:error] %>
 
-<h1><%= @question.title %></h1>
-
-<%= link_to vote_question_path(@question, vote_count: 1), method: 'post' do %>
-  &#9650;
-<% end %>
-<%= @question_votes[@question.id] %>
-<%= link_to vote_question_path(@question, vote_count: -1), method: 'post' do %>
-  &#9660;
-<% end %>
-<%= @question.body  %>
-<%= link_to "Asked by #{@question.user.username}", user_path(@question.user) %>
-<div> <%= @question.my_time %> </div>
-<div>
-  <%= link_to 'Edit Question', edit_question_path(@question) %>
-  <%= link_to 'Delete Question', question_path(@question), method: :delete, data: {confirm: 'Are you sure?'} %>
-</div>
-
-<% if @question_comments %>
-  <ul>
-    <% @question_comments.each do |comment| %>
-      <li><%= comment.body %></li>
-      <%= link_to "#{comment.user.username}", user_path(comment.user) %>
-      <%= link_to 'Edit', edit_question_comment_path(@question, comment) %>
-      <%= link_to 'Delete', question_comment_path(@question, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
-    <% end %>
-  </ul>
-<% end %>
-
-<div><%= link_to 'Add a Comment', new_question_comment_path(@question) %></div>
-<div><%= link_to 'Add an Answer', new_question_answer_path(@question) %></div>
+<%= render partial: @question, locals: {question: @question}
 
 <h2>Answers:</h2>
 
 <% if @best_answer %>
   <h4>Best Answer: </h4>
-  <%= link_to vote_answer_path(@best_answer, vote_count: 1), method: 'post' do %>
-    &#9650;
-  <% end %>
-  <%= @answer_votes[@best_answer.id] %>
-  <%= link_to vote_answer_path(@best_answer, vote_count: -1), method: 'post' do %>
-    &#9660;
-  <% end %>
-
-  <%= @best_answer.body %>
-  <%= link_to "Answered by #{@best_answer.user.username}", user_path(@best_answer.user) %>
-  <div> <%= @best_answer.my_time %> </div>
-  <div>
-    <%= link_to 'Edit', edit_question_answer_path(@question, @best_answer) %>
-    <%= link_to 'Delete', question_answer_path(@question, @best_answer), method: :delete, data: {confirm: 'Are you sure?'} %>
-  </div>
-
-  <% if @best_answer.comments %>
-    <ul>
-      <% @best_answer.comments.each do |comment| %>
-        <li><%= comment.body %></li>
-        <div>
-        <%= link_to "#{comment.user.username}", user_path(comment.user) %>
-          <%= link_to 'Edit', edit_answer_comment_path(@best_answer, comment) %>
-          <%= link_to 'Delete', question_comment_path(@question, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
-        </div>
-      <% end %>
-    </ul>
-  <% end %>
-
-  <div><%= link_to 'Add a Comment', new_answer_comment_path(@best_answer) %></div>
-
+  <%= render partial: 'answers/answer', locals: {answer: @best_answer} %>
 <% end %>
 
 <% if @answers %>
   <% @answers.each do |answer| %>
-
-    <% if @question.user_id == session[:user_id] %>
-      <% unless @best_answer %>
-        <%= link_to update_best_answer_answer_path(answer, best_answer: true), method: 'put' do %>
-          <p>Mark as Best Answer</p>
-        <% end %>
-      <% end %>
-    <% end %>
-
-    <%= link_to vote_answer_path(answer, vote_count: 1), method: 'post' do %>
-      &#9650;
-    <% end %>
-  <%= @answer_votes[answer.id] %>
-    <%= link_to vote_answer_path(answer, vote_count: -1), method: 'post' do %>
-      &#9660;
-    <% end %>
-
-    <%= answer.body %>
-    <div>
-    <%= link_to "Answered by #{answer.user.username}", user_path(answer.user) %>
-    <%= answer.my_time %>
-      <%= link_to 'Edit', edit_question_answer_path(@question, answer) %>
-      <%= link_to 'Delete', question_answer_path(@question, answer), method: :delete, data: {confirm: 'Are you sure?'} %>
-    </div>
-
-    <% if answer.comments %>
-      <ul>
-        <% answer.comments.each do |comment| %>
-          <li><%= comment.body %></li>
-          <div>
-            <%= link_to "#{comment.user.username}", user_path(comment.user) %>
-            <%= link_to 'Edit', edit_answer_comment_path(answer, comment) %>
-            <%= link_to 'Delete', answer_comment_path(answer, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
-          </div>
-        <% end %>
-      </ul>
-    <% end %>
-
-    <div><%= link_to 'Add a Comment', new_answer_comment_path(answer) %></div>
+    <%= render partial: 'answers/answer', locals: {answer: answer} %>
   <% end %>
 <% end %>
 
