@@ -1,5 +1,5 @@
 <h1>Welcome <%=@user.username%> </h1>
-
+ <%=link_to("Edit", edit_user_path(@user.id))%>
 <%= link_to('New Question',new_question_path)%>
 <% if @user.questions %>
   <% @user.questions.each do |q| %>
