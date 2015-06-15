@@ -20,13 +20,11 @@
     </nav>
     <div class="navigation-tools">
       <div class="search-bar">
-        <!-- <form role="search">
-          <%= form_tag("/search", method: "get" ) do %>
-           <%= label_tag( :search, "Search for:") %>
+        <%= form_tag("/search", method: "get" ) do %>
+          <%= label_tag( :search, "Search for:") %>
           <%= text_field_tag :search, params[:search] %>
           <%= submit_tag "Search", :name => nil %>
-        <% end %> -->
-        </form>
+        <% end %>
       </div>
     </div>
   </div>

@@ -6,7 +6,7 @@ class WelcomeController < ApplicationController
   end
 
   def search
-    @questions = Questions.search(params[:search])
+    @questions = Question.search(params[:search])
   end
 
 end
