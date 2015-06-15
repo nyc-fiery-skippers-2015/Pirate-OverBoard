@@ -3,15 +3,15 @@
 
 <%= render partial: @question, locals: {question: @question}
 
-<h2>Answers:</h2>
+<h2>Answers: </h2>
 
 <% if @best_answer %>
   <h4>Best Answer: </h4>
   <%= render partial: 'answers/answer', locals: {answer: @best_answer} %>
 <% end %>
 
-<% if @answers %>
-  <% @answers.each do |answer| %>
+<% if answers %>
+  <% answers.each do |answer| %>
     <%= render partial: 'answers/answer', locals: {answer: answer} %>
   <% end %>
 <% end %>
