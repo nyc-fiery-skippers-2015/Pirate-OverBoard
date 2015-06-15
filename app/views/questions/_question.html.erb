@@ -7,7 +7,9 @@
 <%= link_to vote_question_path(question, vote_count: -1), method: 'post' do %>
   &#9660;
 <% end %>
+
 <%= question.body  %>
+
 <%= link_to "Asked by #{question.user.username}", user_path(question.user) %>
 <div> <%= question.my_time %> </div>
 <div>
