@@ -1,0 +1,31 @@
+
+<% if question.user_id == session[:user_id] %>
+  <% unless @best_answer %>
+    <%= link_to update_best_answer_answer_path(answer, best_answer: true), method: 'put' do %>
+      <p>Mark as Best Answer</p>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= link_to vote_answer_path(answer, vote_count: 1), method: 'post' do %>
+    &#9650;
+  <% end %>
+  <%= @answer_votes[answer.id] %>
+  <%= link_to vote_answer_path(answer, vote_count: -1), method: 'post' do %>
+    &#9660;
+  <% end %>
+
+  <%= answer.body %>
+
+  <%= link_to "Answered by #{answer.user.username}", user_path(answer.user) %>
+  <div> <%= answer.my_time %> </div>
+  <div>
+    <%= link_to 'Edit', edit_question_answer_path(question, answer) %>
+    <%= link_to 'Delete', question_answer_path(question, answer), method: :delete, data: {confirm: 'Are you sure?'} %>
+  </div>
+
+  <% if answer.comments %>
+  <% comments.each do |comment| %>
+    <%= render partial: 'comments/comment', locals: {comment: c} %>
+  <% end %>
+<% end %>

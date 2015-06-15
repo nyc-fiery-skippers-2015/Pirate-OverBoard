@@ -1,0 +1,25 @@
+<h1><%= question.title %></h1>
+
+<%= link_to vote_question_path(question, vote_count: 1), method: 'post' do %>
+  &#9650;
+<% end %>
+<%= question_votes[question.id] %>
+<%= link_to vote_question_path(question, vote_count: -1), method: 'post' do %>
+  &#9660;
+<% end %>
+<%= question.body  %>
+<%= link_to "Asked by #{question.user.username}", user_path(question.user) %>
+<div> <%= question.my_time %> </div>
+<div>
+  <%= link_to 'Edit Question', edit_question_path(question) %>
+  <%= link_to 'Delete Question', question_path(question), method: :delete, data: {confirm: 'Are you sure?'} %>
+</div>
+
+<% if comments %>
+  <% comments.each do |comment| %>
+    <%= render partial: 'comments/comment', locals: {comment: c} %>
+  <% end %>
+<% end %>
+
+<div><%= link_to 'Add a Comment', new_question_comment_path(@question) %></div>
+<div><%= link_to 'Add an Answer', new_question_answer_path(@question) %></div>

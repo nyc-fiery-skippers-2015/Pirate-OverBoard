@@ -1,0 +1,8 @@
+<ul>
+  <li><%= comment.body %></li>
+  <%= link_to "#{comment.user.username}", user_path(comment.user) %>
+  <%= link_to 'Edit', edit_comment_path(comment) %>
+  <%= link_to 'Delete', comment_path(comment), method: :delete, data: {confirm: 'Are you sure?'} %>
+</ul>
+
+<div><%= link_to 'Add a Comment', new_comment_path %></div>
