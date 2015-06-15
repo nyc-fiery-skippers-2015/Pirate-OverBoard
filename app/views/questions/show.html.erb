@@ -12,6 +12,7 @@
 <% end %>
 <%= @question.body  %>
 <%= link_to "Asked by #{@question.user.username}", user_path(@question.user) %>
+<div> <%= @question.my_time %> </div>
 <div>
   <%= link_to 'Edit Question', edit_question_path(@question) %>
   <%= link_to 'Delete Question', question_path(@question), method: :delete, data: {confirm: 'Are you sure?'} %>
@@ -45,6 +46,7 @@
 
   <%= @best_answer.body %>
   <%= link_to "Answered by #{@best_answer.user.username}", user_path(@best_answer.user) %>
+  <div> <%= @best_answer.my_time %> </div>
   <div>
     <%= link_to 'Edit', edit_question_answer_path(@question, @best_answer) %>
     <%= link_to 'Delete', question_answer_path(@question, @best_answer), method: :delete, data: {confirm: 'Are you sure?'} %>
@@ -89,6 +91,7 @@
     <%= answer.body %>
     <div>
     <%= link_to "Answered by #{answer.user.username}", user_path(answer.user) %>
+    <%= answer.my_time %>
       <%= link_to 'Edit', edit_question_answer_path(@question, answer) %>
       <%= link_to 'Delete', question_answer_path(@question, answer), method: :delete, data: {confirm: 'Are you sure?'} %>
     </div>
