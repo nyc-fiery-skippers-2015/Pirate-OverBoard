@@ -13,13 +13,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = found_question
-    @question_votes =  Vote.where(votable_type: 'Question').group(:votable_id).sum(:vote_count)
-    @question = Question.find_by(id: params[:id])
-    @question_comments = @question.comments
-    @best_answer = Answer.find_by(question: @question, best_answer: true)
-    @answer_votes =  Vote.where(votable_type: 'Answer').group(:votable_id).sum(:vote_count)
-    @answers = Answer.joins(:votes).where(question: @question, best_answer: false).group(:id).order('SUM(votes.vote_count) DESC')
+    @question = Question.includes(:comments, :answers ).find_by(id: params[:id])  
   end
 
   def new

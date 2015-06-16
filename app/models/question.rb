@@ -27,7 +27,7 @@ class Question < ActiveRecord::Base
   end
 
   def best_answer
-    answers.find_by(best_answer: true)
+    answers.where(best_answer: true).first
   end
 
   def self.search(search)
