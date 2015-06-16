@@ -1,0 +1,9 @@
+<% path = -> (obj, vote ){ votable_object.class == Question ? vote_question_path(obj,vote) : vote_answer_path(obj,vote) }%>
+
+<%= link_to path.call( votable_object, vote_count: 1 ), method: 'post' do %>
+  &#9650;
+<% end %>
+<%= votable_object.vote_count %>
+<%= link_to vote_question_path(votable_object, vote_count: -1), method: 'post' do %>
+  &#9660;
+<% end %>

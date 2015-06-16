@@ -1,0 +1,6 @@
+<li><%= comment.body %></li>
+<%= link_to "#{comment.user.username}", user_path(comment.user) %>
+<%= link_to 'Edit', edit_question_comment_path(comment.commentable, comment) %>
+
+<!-- should we show this link if we are not allowed remove --> 
+<%= link_to 'Delete', question_comment_path(comment.commentable, comment), method: :delete, data: {confirm: 'Are you sure?'} %>

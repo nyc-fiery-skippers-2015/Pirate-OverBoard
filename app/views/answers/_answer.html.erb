@@ -1,0 +1,22 @@
+<% if answer.question.user_id == session[:user_id]  && !answer.question.best_answer %>
+  <%= link_to 'Mark as Best Answer', update_best_answer_answer_path(answer, best_answer: true), method: 'put'%>
+<% end %>
+
+<%= render partial: 'application/votable', locals: {votable_object: answer} %>
+<%= answer.body %>
+<%= link_to "Answered by #{answer.user.username}", user_path(answer.user) %>
+
+<div> <%= answer.my_time %> </div>
+
+<div>
+  <%= link_to 'Edit', edit_question_answer_path(answer.question, answer) %>
+  <%= link_to 'Delete', question_answer_path(answer.question, answer), method: :delete, data: {confirm: 'Are you sure?'} %>
+</div>
+
+<% if answer.comments %>
+  <ul>
+      <%= render partial: answer.comments %>
+  </ul>
+<% end %>
+
+<div><%= link_to 'Add a Comment', new_answer_comment_path(answer) %></div>
