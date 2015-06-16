@@ -18,10 +18,16 @@ class Question < ActiveRecord::Base
     vote.save
   end
 
+  def vote_count
+    votes.sum(:vote_count)
+  end
+
   def answers_by_votes
     answers.where(best_answer: false).sort{|ans1, ans2| ans2.vote_count <=> ans1.vote_count}
   end
 
+  def best_answer
+    answers.find_by(best_answer: true)
   end
 
   def self.search(search)
