@@ -8,7 +8,6 @@ class Question < ActiveRecord::Base
 
   validates_presence_of :title, :body
 
-
   def my_time
     self.created_at.strftime("%B %d, %Y")
   end
@@ -19,6 +18,12 @@ class Question < ActiveRecord::Base
     vote.save
   end
 
+  def answers_by_votes
+    answers.where(best_answer: false).sort{|ans1, ans2| ans2.vote_count <=> ans1.vote_count}
+  end
+
+  end
+
   def self.search(search)
   if search
     find(:all, :conditions => ['title LIKE ?', "%#{search}%"])
@@ -26,5 +31,4 @@ class Question < ActiveRecord::Base
     find(:all)
   end
 
-end
 end

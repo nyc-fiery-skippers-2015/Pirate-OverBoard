@@ -18,6 +18,10 @@ class Answer < ActiveRecord::Base
     self.created_at.strftime("%B %d, %Y")
   end
 
+  def vote_count
+    votes.sum(:vote_count)
+  end
+
   private
 
   def only_one_best_answer
