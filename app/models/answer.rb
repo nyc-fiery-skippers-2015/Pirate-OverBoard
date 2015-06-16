@@ -14,10 +14,6 @@ class Answer < ActiveRecord::Base
     vote.save
   end
 
-  def my_time
-    self.created_at.strftime("%B %d, %Y")
-  end
-
   def vote_count
     votes.sum(:vote_count)
   end

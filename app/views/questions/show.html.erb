@@ -1,13 +1,10 @@
-<%= flash[:notice] %>
-<%= flash[:error] %>
-
 <h1><%= @question.title %></h1>
 
 <%= render partial: 'application/votable', locals: {votable_object: @question} %>
 
 <%= @question.body  %>
 <%= link_to "Asked by #{@question.user.username}", user_path(@question.user) %>
-<div> <%= @question.my_time %> </div>
+<div> <%= pirate_time( @question.created_at ) %> </div>
 
 <div>
   <%= link_to 'Edit Question', edit_question_path(@question) %>

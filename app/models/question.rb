@@ -8,10 +8,6 @@ class Question < ActiveRecord::Base
 
   validates_presence_of :title, :body
 
-  def my_time
-    self.created_at.strftime("%B %d, %Y")
-  end
-
   def default_vote
     vote = self.votes.build(vote_count:0)
     vote.user = self.user
